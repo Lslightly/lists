@@ -14,12 +14,15 @@ struct Node<T> {
 
 impl<T> List<T> {
     pub fn new() -> Self {
-        List { head: ptr::null_mut(), tail: ptr::null_mut() }
+        List {
+            head: ptr::null_mut(),
+            tail: ptr::null_mut(),
+        }
     }
 
     pub fn push(&mut self, elem: T) {
         unsafe {
-            let new_tail = Box::into_raw(Box::new(Node{
+            let new_tail = Box::into_raw(Box::new(Node {
                 elem,
                 next: ptr::null_mut(),
             }));
@@ -75,26 +78,26 @@ impl<T> List<T> {
 
     pub fn iter(&self) -> Iter<'_, T> {
         unsafe {
-            Iter { next: self.head.as_ref() }
+            Iter {
+                next: self.head.as_ref(),
+            }
         }
     }
 
     pub fn iter_mut(&mut self) -> IterMut<'_, T> {
         unsafe {
-            IterMut { next: self.head.as_mut() }
+            IterMut {
+                next: self.head.as_mut(),
+            }
         }
     }
 
     pub fn peek(&self) -> Option<&T> {
-        unsafe {
-            self.head.as_ref().map(|node| &node.elem)
-        }
+        unsafe { self.head.as_ref().map(|node| &node.elem) }
     }
 
     pub fn peek_mut(&mut self) -> Option<&mut T> {
-        unsafe {
-            self.head.as_mut().map(|node| &mut node.elem)
-        }
+        unsafe { self.head.as_mut().map(|node| &mut node.elem) }
     }
 }
 

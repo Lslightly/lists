@@ -28,9 +28,7 @@ impl List {
 
     pub fn pop(&mut self) -> Option<i32> {
         match mem::replace(&mut self.head, Link::Empty) {
-            Link::Empty => {
-                None
-            }
+            Link::Empty => None,
             Link::More(node) => {
                 self.head = node.next;
                 Some(node.elem)
@@ -40,7 +38,8 @@ impl List {
 }
 
 impl Drop for List {
-    fn drop(&mut self) { // not tail recursive, so the stack won't blow
+    fn drop(&mut self) {
+        // not tail recursive, so the stack won't blow
         let mut cur_link = mem::replace(&mut self.head, Link::Empty);
         while let Link::More(mut boxed_node) = cur_link {
             cur_link = mem::replace(&mut boxed_node.next, Link::Empty);
@@ -80,4 +79,3 @@ mod test {
         assert_eq!(list.pop(), None);
     }
 }
- 
